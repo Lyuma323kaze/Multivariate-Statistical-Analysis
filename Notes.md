@@ -90,3 +90,19 @@ $$
 MLE: estimator or estimates
 
 Ralevance between MVN is definitely linear.
+
+### Lec 3
+!!!!!!! Sampling meaning for sample variance $s^{2}= {1\over n} \sum_{i=1}^{n}(X_{i}-\overline{X})$:  adding variance of new sample to the existing samples. Key deviation trick:
+$$
+X_{n}-\overline{X}_{n} = X_{n} - {1\over n}((n-1)\overline{X}_{n-1}+X_{n}) 
+$$
+Key introduced random variables: $Z_{i}$
+Wishart distribution: MVN version of $\chi^{2}$ distribution, returns a $p\times p$ matrix
+$Z_{1}$ is redefined for suiting the orthogonality of $Z_{i}$ series
+
+$T^{2}$ is robust under scaling (full-rank linear transition)
+
+Confidence region: CRs given by data could cover (partially) the given CR by the probability of confidence probability
+!!!!!! Dual relation of hypothesis test & confidence region?
+
+Bonferroni_t is larger 
