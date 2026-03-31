@@ -1,0 +1,84 @@
+---
+title: "Homework 3"
+author: "Zhen Wu"
+output: pdf_document
+---
+
+## Prob. 1
+
+Paired comparisons are applicable in a "before-and-after" clinical trial evaluating a new antihypertensive drug. The research question asks if the medication significantly lowers systolic blood pressure after one month of use. Data collection involves measuring the blood pressure of $n = 30$ hypertensive patients at baseline and again after a thirty-day treatment period. The variables for each group are the initial pressure $X_{i,1}$ and the final pressure $X_{i,2}$ for each individual $i$, where the analysis focuses on the mean difference $\bar{D} = \frac{1}{n} \sum_{i=1}^{n} (X_{i,1} - X_{i,2})$. This design is effective because each subject serves as their own control, minimizing inter-subject variability.
+
+Conversely, paired comparisons cannot be applied when comparing the fuel efficiency of two different car models, Model A and Model B, under independent conditions. The research question investigates whether Model A has a higher average miles-per-gallon (MPG) than Model B. The data collection procedure involves testing a random sample of $n_A = 20$ units of Model A and a separate, independent sample of $n_B = 25$ units of Model B on a standardized track. The variables are the MPG ratings $Y_{A,j}$ and $Y_{B,k}$ for the respective groups. Since the two samples consist of different physical units with no logical link between any specific car in group A and group B, the independence of the observations precludes the use of paired statistical methods.
+
+## Prob. 2
+
+### (a) 
+
+Exact Inference based on Exercise 6.7In exact inference, we assume the two populations follow multivariate normal distributions with a common covariance matrix $\boldsymbol{\Sigma}_1 = \boldsymbol{\Sigma}_2 = \boldsymbol{\Sigma}$. We first calculate the pooled sample covariance matrix:$$\mathbf{S}_{pl} = \frac{(n_1-1)\mathbf{S}_1 + (n_2-1)\mathbf{S}_2}{n_1+n_2-2} = \frac{44\mathbf{S}_1 + 54\mathbf{S}_2}{98} \approx \begin{bmatrix} 10965.84 & 21509.30 \\ 21509.30 & 63660.15 \end{bmatrix}$$The difference between the sample mean vectors is $\bar{\mathbf{d}} = \bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 = [74.4, 201.6]'$. Hotelling's $T^2$ statistic is defined as:$$T^2 = (\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)' \left[ \left( \frac{1}{n_1} + \frac{1}{n_2} \right) \mathbf{S}_{pl} \right]^{-1} (\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)$$
+
+Substituting the numerical values, we obtain $T^2 \approx 16.06$. Under the null hypothesis $H_0: \boldsymbol{\mu}_1 - \boldsymbol{\mu}_2 = \mathbf{0}$, the distribution of the statistic satisfies:$$\frac{n_1+n_2-p-1}{(n_1+n_2-2)p} T^2 \sim F_{p, n_1+n_2-p-1}$$With $p=2$ and $n_1+n_2-p-1 = 97$, the critical value at $\alpha = 0.05$ is $c^2 = \frac{98 \times 2}{97} F_{2, 97}(0.05) \approx \frac{196}{97} \times 3.09 \approx 6.24$. Since $T^2 = 16.06 > 6.24$, we reject $H_0$. The linear combination most responsible for the rejection is given by the coefficient vector $\hat{\mathbf{a}} \propto \mathbf{S}_{pl}^{-1}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) \approx [0.000042, 0.000064]'$, indicating that both components of electricity demand contribute significantly to the mean difference.
+
+### (b) 
+
+Asymptotic Inference using Large Sample TheoryWhen the sample sizes $n_1$ and $n_2$ are sufficiently large, the assumption of equal covariance matrices can be relaxed. According to the Central Limit Theorem, the statistic $W$ asymptotically follows a chi-square distribution with $p$ degrees of freedom:$$W = (\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)' \left( \frac{1}{n_1}\mathbf{S}_1 + \frac{1}{n_2}\mathbf{S}_2 \right)^{-1} (\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) \xrightarrow{d} \chi^2_p$$We calculate the weighted sum of the sample covariances $\mathbf{V} = \frac{1}{45}\mathbf{S}_1 + \frac{1}{55}\mathbf{S}_2 \approx \begin{bmatrix} 464.18 & 886.08 \\ 886.08 & 2642.15 \end{bmatrix}$. Substituting the data yields $W \approx 15.66$. At $\alpha = 0.05$, the critical value for the chi-square distribution is $\chi^2_2(0.05) \approx 5.99$. Since $15.66 > 5.99$, the large sample theory also leads to the rejection of $H_0$.
+
+### (c) 
+
+Acceptance of the Equal Variance Matrix AssumptionWe can evaluate the assumption of equal covariance matrices by examining the generalized variances (determinants). We find $|\mathbf{S}_1| \approx 4.43 \times 10^8$ and $|\mathbf{S}_2| \approx 0.98 \times 10^8$. The generalized variance of the first group is approximately 4.5 times larger than that of the second. Furthermore, a direct inspection of the diagonal elements shows that the variances in $\mathbf{S}_1$ are substantially higher than those in $\mathbf{S}_2$. Given the sample sizes $n_1=45$ and $n_2=55$, formal tests like Box's M would likely reject the hypothesis $H_0: \boldsymbol{\Sigma}_1 = \boldsymbol{\Sigma}_2$. Therefore, the assumption of equal variance matrices is difficult to accept.
+
+### (d) 
+
+Preferred Method and ExplanationI prefer the asymptotic inference method described in (b). This preference is based on two main factors. First, as analyzed in (c), there is a notable discrepancy between the sample covariance matrices, which suggests that the homoscedasticity assumption required for the exact $T^2$ test in (a) is violated. Such a violation can lead to an inflated Type I error rate. Second, the total sample size $n = 100$ is large enough to ensure that the asymptotic approximation is reliable. In cases where the covariance matrices are unequal (the multivariate Behrens-Fisher problem), using the individual sample covariance matrices provides a more robust inference.
+
+## Prob. 3
+```{r}
+sweat_data <- read.table("T5-1.txt", header = FALSE)
+colnames(sweat_data) <- c("Sweat_Rate", "Sodium", "Potassium")
+n <- nrow(sweat_data)
+p <- ncol(sweat_data)
+```
+
+```{r}
+# (1) Q-Q plots for marginal normality
+par(mfrow = c(1, 3))
+for (i in 1:p) {
+  qqnorm(sweat_data[, i], main = paste("Q-Q Plot for", colnames(sweat_data)[i]))
+  qqline(sweat_data[, i], col = "red")
+}
+
+# (2) Scatter plot matrix for bivariate relationships
+pairs(sweat_data, main = "Scatter Plot Matrix of Sweat Data", pch = 19, col = "blue")
+
+# (3) Chi-square plot for multivariate normality
+# Calculate sample mean vector and covariance matrix
+x_bar <- colMeans(sweat_data)
+S <- cov(sweat_data)
+
+# Compute squared Mahalanobis distances: d_j^2 = (x_j - x_bar)' S^-1 (x_j - x_bar)
+d2 <- mahalanobis(sweat_data, center = x_bar, cov = S)
+d2_sorted <- sort(d2)
+
+# Theoretical chi-square quantiles for p = 3 degrees of freedom
+probabilities <- (1:n - 0.5) / n
+chi2_quantiles <- qchisq(probabilities, df = p)
+
+# Plotting
+par(mfrow = c(1, 1))
+plot(chi2_quantiles, d2_sorted, 
+     main = "Chi-Square Plot for Multivariate Normality",
+     xlab = expression(paste(chi[3]^2, " Quantiles")),
+     ylab = "Ordered Squared Distances",
+     pch = 19)
+abline(0, 1, col = "red", lwd = 2)
+```
+
+### Comment
+#### (1) Q-Q Plots: 
+The marginal Q-Q plots allow us to inspect if each variable follows a univariate normal distribution. For the sweat data, the points for "Sodium" and "Potassium" generally fall along the straight line, though "Sweat Rate" might show slight deviations at the tails. Since univariate normality is a necessary condition for multivariate normality, these plots provide the first layer of justification.
+#### (2) Scatter Plot Matrix: 
+The scatter plot matrix reveals the bivariate structure of the data. To satisfy the multivariate normal assumption, the points in each scatter plot should form roughly elliptical clusters. In this dataset, the points are somewhat dispersed, but they do not exhibit obvious non-linear patterns or extreme clustering that would immediately invalidate the assumption of a joint normal distribution.
+
+#### (3) Chi-Square Plot: 
+The Chi-square plot is the most direct test for multivariate normality. We compare the ordered squared Mahalanobis distances$$d_{(j)}^2 = (\mathbf{x}_{(j)} - \bar{\mathbf{x}})' \mathbf{S}^{-1} (\mathbf{x}_{(j)} - \bar{\mathbf{x}})$$against the quantiles of a $\chi_3^2$ distribution. If the data follows a multivariate normal distribution, the points should lie approximately on a straight line passing through the origin with a slope of 1.
+
+Therefore, the assumption of multivariate normality seems reasonably justified, though with some caution. While the Chi-square plot generally follows the $45^\circ$ line, there may be slight deviations at the upper end of the distances (notably observation 16 in the original dataset is often cited as a potential outlier). However, for a small sample size of $n=20$, the departures are not severe enough to reject the assumption of multivariate normality for standard statistical inference.
