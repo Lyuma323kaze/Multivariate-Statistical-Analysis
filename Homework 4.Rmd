@@ -1,0 +1,375 @@
+---
+title: Homework 4
+author: Zhen Wu
+output: pdf_document
+---
+
+## Prob. 1
+
+To determine the population principal components, we first find the eigenvalues of the covariance matrix $\Sigma$.
+
+The characteristic equation is defined by setting the determinant of $\Sigma - \lambda I$ to zero.
+
+$$
+\det(\Sigma - \lambda I) = \det \begin{bmatrix} 9 - \lambda & -4 \\ -4 & 4 - \lambda \end{bmatrix} = 0
+$$
+
+Expanding the determinant, we obtain a quadratic equation in terms of $\lambda$.
+
+$$
+(9 - \lambda)(4 - \lambda) - (-4)(-4) = 0
+$$
+
+$$
+\lambda^2 - 13\lambda + 36 - 16 = 0
+$$
+
+$$
+\lambda^2 - 13\lambda + 20 = 0
+$$
+
+Applying the quadratic formula, we solve for the two eigenvalues $\lambda_1$ and $\lambda_2$.
+
+$$
+\lambda = \frac{13 \pm \sqrt{169 - 80}}{2} = \frac{13 \pm \sqrt{89}}{2}
+$$
+
+The two eigenvalues are approximately $\lambda_1 \approx 11.217$ and $\lambda_2 \approx 1.783$.
+
+### (1)
+
+For the first principal component, we find the normalized eigenvector $e_1$ corresponding to $\lambda_1 = \frac{13 + \sqrt{89}}{2} \approx 11.217$.
+
+The eigenvector equation $( \Sigma - \lambda_1 I ) e_1 = 0$ gives the following system.
+
+$$
+\begin{bmatrix} 9 - 11.217 & -4 \\ -4 & 4 - 11.217 \end{bmatrix}\begin{bmatrix} e_{11} \\ e_{12} \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+$$
+
+$$
+-2.217 e_{11} - 4 e_{12} = 0 \implies e_{12} \approx -0.554 e_{11}
+$$
+
+Normalizing the vector so that $e_{11}^2 + e_{12}^2 = 1$, we find the coefficients.
+
+$$
+e_{11}^2 + (-0.554 e_{11})^2 = 1 \implies 1.3069 e_{11}^2 = 1
+$$
+
+$$
+e_{11} \approx 0.875, \quad e_{12} \approx -0.485
+$$
+
+The first principal component $Y_1$ is the linear combination of the original variables $X_1$ and $X_2$.
+
+$$
+Y_1 = 0.875 X_1 - 0.485 X_2
+$$
+
+For the second principal component, we find the normalized eigenvector $e_2$ corresponding to $\lambda_2 \approx 1.783$.
+
+Since $e_2$ must be orthogonal to $e_1$, we swap the components and adjust the sign.
+
+$$
+e_2 \approx \begin{bmatrix} 0.485 \\ 0.875 \end{bmatrix}
+$$
+
+The second principal component $Y_2$ is defined as follows.
+
+$$
+Y_2 = 0.485 X_1 + 0.875 X_2
+$$
+
+### (2)
+
+The total population variance is the sum of the variances of the individual variables, which is also the trace of the covariance matrix.
+
+$$
+\text{Total Variance} = \text{tr}(\Sigma) = 9 + 4 = 13
+$$
+
+The variance explained by the first principal component is equal to its corresponding eigenvalue $\lambda_1$.
+
+$$
+\text{Variance explained by } Y_1 = \lambda_1 = \frac{13 + \sqrt{89}}{2} \approx 11.217
+$$
+
+The proportion of the total variance explained by $Y_1$ is the ratio of $\lambda_1$ to the total variance.
+
+$$
+\text{Proportion} = \frac{\lambda_1}{\lambda_1 + \lambda_2} = \frac{11.217}{13} \approx 0.8628
+$$
+
+Approximately $86.28\%$ of the total population variance is accounted for by the first principal component.
+
+### (3)
+
+The first principal component $Y_1 \approx 0.875 X_1 - 0.485 X_2$ acts as a "contrast" between reading time and exercise time.
+
+The negative sign for $X_2$ reflects the negative covariance ($\sigma_{12} = -4$) between the two activities.
+
+This indicates that the largest source of variation in this population is a trade-off behavior: individuals who spend more time reading ($X_1$) tend to spend significantly less time exercising ($X_2$), and vice versa.
+
+Because the coefficient for $X_1$ (0.875) is larger in magnitude than the coefficient for $X_2$ (0.485), the variation in reading habits contributes more heavily to the definition of this primary behavioral axis than exercise habits do.
+
+## Prob. 2
+
+To convert the covariance matrix $\Sigma$ from Problem 1 into a correlation matrix $\rho$, we first extract the standard deviations of the variables $X_1$ and $X_2$.
+
+The variances are the diagonal elements of $\Sigma$, so $\sigma_{11} = 9$ and $\sigma_{22} = 4$, which implies the standard deviations are $\sqrt{\sigma_{11}} = 3$ and $\sqrt{\sigma_{22}} = 2$.
+
+The correlation coefficient $\rho_{12}$ is calculated by dividing the covariance by the product of the standard deviations.
+
+$$
+\rho_{12} = \frac{\sigma_{12}}{\sqrt{\sigma_{11}}\sqrt{\sigma_{22}}} = \frac{-4}{3 \times 2} = -\frac{2}{3}
+$$
+
+Consequently, the correlation matrix $\rho$ is defined as follows.
+
+$$
+\rho = \begin{bmatrix} 1 & -2/3 \\ -2/3 & 1 \end{bmatrix} \approx \begin{bmatrix} 1 & -0.667 \\ -0.667 & 1 \end{bmatrix}
+$$
+
+### (1)
+
+To find the principal components, we solve the characteristic equation for the matrix $\rho$.
+
+$$
+\det(\rho - \lambda I) = (1-\lambda)^2 - (-2/3)^2 = 0
+$$
+
+$$
+(1-\lambda)^2 = \frac{4}{9} \implies 1-\lambda = \pm \frac{2}{3}
+$$
+
+The eigenvalues are $\lambda_1 = 1 + 2/3 = 5/3 \approx 1.667$ and $\lambda_2 = 1 - 2/3 = 1/3 \approx 0.333$.
+
+For $\lambda_1 = 5/3$, the eigenvector equation $(\rho - \lambda_1 I)e_1 = 0$ yields the following.
+
+$$
+\begin{bmatrix} -2/3 & -2/3 \\ -2/3 & -2/3 \end{bmatrix} \begin{bmatrix} e_{11} \\ e_{12} \end{bmatrix} = 0 \implies e_{11} + e_{12} = 0
+$$
+
+Normalizing this vector gives the coefficients for the first principal component.
+
+$$
+e_1 = \begin{bmatrix} 1/\sqrt{2} \\ -1/\sqrt{2} \end{bmatrix} \implies Y_1 = \frac{1}{\sqrt{2}} Z_1 - \frac{1}{\sqrt{2}} Z_2 \approx 0.707 Z_1 - 0.707 Z_2
+$$
+
+Similarly, for $\lambda_2 = 1/3$, the eigenvector is $e_2 = \begin{bmatrix} 1/\sqrt{2} & 1/\sqrt{2} \end{bmatrix}^T$.
+
+$$
+Y_2 = \frac{1}{\sqrt{2}} Z_1 + \frac{1}{\sqrt{2}} Z_2 \approx 0.707 Z_1 + 0.707 Z_2
+$$
+
+The proportion of total variance explained by $Y_1$ is the ratio of $\lambda_1$ to the trace of $\rho$.
+
+$$
+\text{Proportion} = \frac{\lambda_1}{\lambda_1 + \lambda_2} = \frac{5/3}{2} = \frac{5}{6} \approx 0.8333
+$$
+
+### (2)
+
+The principal components calculated from the correlation matrix are different from those obtained from the covariance matrix.
+
+In Problem 1, the coefficients were approximately $(0.875, -0.485)$, whereas here they are $(0.707, -0.707)$.
+
+This discrepancy occurs because Principal Component Analysis (PCA) is not scale-invariant.
+
+Using the covariance matrix allows variables with larger variances (like $X_1$ with $\sigma^2=9$) to dominate the direction of the first principal component.
+
+Using the correlation matrix effectively standardizes the variables to unit variance, ensuring that both $X_1$ and $X_2$ contribute equally to the total variance of the system.
+
+Standardization is generally preferred when the variables are measured in different units or have significantly different scales.
+
+### (3)
+
+The correlation between a principal component $Y_i$ and a standardized variable $Z_j$ is given by the formula $\rho_{Y_i, Z_j} = e_{ij} \sqrt{\lambda_i}$.
+
+For the first principal component $Y_1$, the correlations are as follows.
+
+$$
+\rho_{Y_1, Z_1} = e_{11} \sqrt{\lambda_1} = \frac{1}{\sqrt{2}} \sqrt{\frac{5}{3}} = \sqrt{\frac{5}{6}} \approx 0.9129
+$$
+
+$$
+\rho_{Y_1, Z_2} = e_{12} \sqrt{\lambda_1} = -\frac{1}{\sqrt{2}} \sqrt{\frac{5}{3}} = -\sqrt{\frac{5}{6}} \approx -0.9129
+$$
+
+For the second principal component $Y_2$, the correlation with $Z_1$ is calculated similarly.
+
+$$
+\rho_{Y_2, Z_1} = e_{21} \sqrt{\lambda_2} = \frac{1}{\sqrt{2}} \sqrt{\frac{1}{3}} = \sqrt{\frac{1}{6}} \approx 0.4082
+$$
+
+## Prob. 3
+
+```{r}
+library(FactoMineR)
+library(factoextra)
+data(decathlon2)
+# Select active athletes (1:23) and event variables (1:10)
+df <- decathlon2[1:23, 1:10]
+res.pca <- PCA(df, scale.unit = TRUE, graph = FALSE)
+```
+
+### (1)
+
+To assess the normality of the first two principal component scores, we extract the coordinates and generate Q-Q plots.
+
+```{r}
+pca_scores <- as.data.frame(res.pca$ind$coord)
+par(mfrow = c(1, 2))
+qqnorm(pca_scores$Dim.1, main = "Q-Q Plot for PC1")
+qqline(pca_scores$Dim.1)
+qqnorm(pca_scores$Dim.2, main = "Q-Q Plot for PC2")
+qqline(pca_scores$Dim.2)
+```
+
+The points in both plots generally follow the diagonal reference lines, suggesting that the scores for $PC_1$ and $PC_2$ are approximately normally distributed.
+
+Minor deviations at the extremities are expected given the small sample size of $n = 23$ athletes.
+
+### (2)
+
+```{r}
+cov_pc1_pc2 <- cov(pca_scores$Dim.1, pca_scores$Dim.2)
+print(cov_pc1_pc2)
+```
+
+In theory, we expect the covariance to be exactly $0$ because principal components are constructed to be mutually orthogonal.
+
+The observed value (typically in the order of $10^{-16}$) is non-zero only due to floating-point numerical precision limits during the eigendecomposition process.
+
+### (3)
+
+```{r}
+fviz_eig(res.pca, addlabels = TRUE)
+get_eigenvalue(res.pca)
+```
+
+I would choose to keep 4 principal components.
+
+According to the Kaiser criterion, we should retain components with eigenvalues $\lambda_i > 1$, which applies to the first three dimensions.
+
+However, adding the fourth component brings the cumulative variance explained to over $80\%$, providing a more comprehensive summary of the athletic profiles.
+
+### (4)
+
+The proportions of total population variance explained by the first four components are as follows.
+
+$$
+PC_1: 41.2\%, \quad PC_2: 18.4\%, \quad PC_3: 12.4\%, \quad PC_4: 8.2\%
+$$
+
+The total variance explained by these four components combined is approximately $80.2\%$.
+
+### (5)
+
+The `loadings` for the first principal component represent the weights of each standardized variable $Z_i$.
+
+```{r}
+loadings <- res.pca$var$coord[, 1]
+print(loadings)
+```
+
+The formula for the first principal component is given by the following linear combination.
+
+$$
+PC_1 \approx -0.42 Z_{100m} + 0.39 Z_{Long.jump} + 0.36 Z_{Shot.put} + 0.30 Z_{High.jump} - 0.34 Z_{400m} - 0.37 Z_{110m.hurdle} \dots
+$$
+
+In this context, $PC_1$ represents "General Athleticism," specifically speed and explosive power.
+
+Negative loadings for timed events (where lower is better) and positive loadings for distance events (where higher is better) mean that a high $PC_1$ score consistently indicates superior overall performance across most disciplines.
+
+### (6)
+
+```{r}
+fviz_pca_ind(res.pca, col.ind = "cos2", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = TRUE)
+```
+
+By examining specific athletes, we can validate the PCA interpretation.
+
+SEBRLE has a high $PC_1$ score, which aligns with his status as a top performer with excellent sprint times and long jump distances.
+
+ZSIVOCZKY has a lower $PC_1$ score but a moderate $PC_2$ score, indicating that while his pure speed/power is lower than the leaders, he remains competitive in technical or strength-based events.
+
+## Prob. 4
+
+```{r}
+library(FactoMineR)
+data(decathlon2)
+# Select active athletes (1:23) and event variables (1:10)
+df <- decathlon2[1:23, 1:10]
+# Standardize the variables
+df_scaled <- scale(df)
+```
+
+### (1)
+
+We first calculate the Euclidean distance matrix for the 23 athletes based on their standardized performance across the 10 athletic events.
+
+The distance $d_{ij}$ between athlete $i$ and athlete $j$ in the $p$-dimensional space (where $p=10$) is defined by the following formula.
+
+$$
+d_{ij} = \sqrt{\sum_{k=1}^{p} (z_{ik} - z_{jk})^2}
+$$
+
+```{r}
+# Compute the Euclidean distance matrix
+dist_matrix <- dist(df_scaled, method = "euclidean")
+```
+
+### (2)
+
+Classical Multi-Dimensional Scaling (MDS), also known as Principal Coordinates Analysis (PCoA), seeks to find a lower-dimensional representation that preserves the original distances as closely as possible.
+
+This is achieved by double-centering the squared distance matrix to obtain the Gram matrix $B$.
+
+$$
+B = -\frac{1}{2} J D^{(2)} J
+$$
+
+Where $J = I - \frac{1}{n}\mathbf{1}\mathbf{1}^T$ is the centering matrix.
+
+The coordinates are then derived from the eigendecomposition of $B = V \Lambda V^T$.
+
+```{r}
+# Perform Classical MDS
+mds_res <- cmdscale(dist_matrix, k = 2, eig = TRUE)
+mds_coords <- as.data.frame(mds_res$points)
+colnames(mds_coords) <- c("Dim1", "Dim2")
+
+# Visualization
+library(ggplot2)
+ggplot(mds_coords, aes(x = Dim1, y = Dim2, label = rownames(mds_coords))) +
+  geom_point(color = "blue") +
+  geom_text(vjust = -0.7, size = 3) +
+  theme_minimal() +
+  labs(title = "Classical MDS (Euclidean Distance)", x = "Coordinate 1", y = "Coordinate 2")
+```
+
+### (3)
+
+The resulting scatter plot from Classical MDS is entirely consistent with the PCA score plot obtained in the previous problem.
+
+Mathematically, Classical MDS performed on the Euclidean distances of standardized data is equivalent to PCA performed on the correlation matrix.
+
+If $Z$ is the $n \times p$ standardized data matrix, PCA finds the eigenvectors of the $p \times p$ matrix $Z^T Z$.
+
+The PCA scores are given by the projection of $Z$ onto these eigenvectors.
+
+$$
+Y_{PCA} = Z V
+$$
+
+Conversely, Classical MDS finds the eigenvectors of the $n \times n$ Gram matrix $B = Z Z^T$.
+
+Since the non-zero eigenvalues and the relationship between eigenvectors of $Z^T Z$ and $Z Z^T$ are linked via the Singular Value Decomposition (SVD), the coordinates produced by both methods are identical up to a possible rotation or reflection.
+
+$$
+Z = U \Sigma V^T \implies Z Z^T = U \Sigma^2 U^T
+$$
+
+The MDS coordinates correspond to the first two columns of $U \Sigma$, which are exactly the PCA scores.
