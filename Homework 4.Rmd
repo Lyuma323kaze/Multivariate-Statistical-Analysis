@@ -267,7 +267,6 @@ The total variance explained by these four components combined is approximately 
 ### (5)
 
 The `loadings` for the first principal component represent the weights of each standardized variable $Z_i$.
-
 ```{r}
 loadings <- res.pca$var$coord[, 1]
 print(loadings)
